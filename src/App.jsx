@@ -16,9 +16,30 @@ function App() {
           <h3>Professional Photographer</h3>
           <div className="channels">
             <p>📧 emilytakespics@gmail.com</p>
-            <p>💼 linkedin.com/in/emilytakespics</p>
+            <p>💼 linkedin.com/in/emilythompson</p>
           </div>
         </div>
+      </div>
+
+      {/* About Me box underneath */}
+      <div className="about-box">
+        <h2>About Me</h2>
+        <p>
+          I'm a professional photographer with over 8 years of experience capturing 
+          life's most precious moments. Based between New York and California, my work 
+          focuses on portrait, wedding, and documentary photography.
+        </p>
+        <p>
+          My approach is candid, natural, and story-driven. I believe the best photos 
+          happen when you forget the camera exists. I've worked with clients like 
+          Vogue, Nike, and Airbnb, but my favorite projects are intimate family sessions 
+          and creative collaborations with emerging artists.
+        </p>
+        <p>
+          When I'm not behind the lens, you'll find me hiking, developing film in my 
+          darkroom, or hunting for the perfect cup of coffee. Let's create something 
+          beautiful together.
+        </p>
       </div>
     </div>
   )
