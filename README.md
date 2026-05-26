@@ -1,16 +1,122 @@
-# React + Vite
+# گزارش پروژه‌ی فرانت‌اند ایستا با استقرار خودکار
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+نام و نام خانوادگی: محیا ضرابی‌زاده
 
-Currently, two official plugins are available:
+آدرس پروژه‌ی استقرار یافته: 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## معرفی پروژه
 
-## React Compiler
+این پروژه یک وب‌سایت شخصی برای یک عکاس حرفه‌ای است که با استفاده از **React** و **Vite** پیاده‌سازی شده است. ظاهر وب‌سایت شامل بخش‌های معرفی کوتاه (به همراه تصویر و مسیرهای ارتباطی)، درباره‌ی من، و پورتفولیو است. همچنین برای بارگذاری جذاب‌تر، از افکت‌های انیمیشن همگام با اسکرول استفاده شده است.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## مراحل انجام‌شده
 
-## Expanding the ESLint configuration
+### ۱. راه‌اندازی اولیه و کنترل نسخه با Git
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- مخزن روی GitHub ساخته شد.
+- پروژه با دستور `npm create vite@latest` ایجاد و به مخزن متصل گردید.
+- شاخه‌ی اصلی `main` به عنوان شاخه‌ی پایدار در نظر گرفته شد.
+- شاخه‌ی `dev` برای ادغام موقت تغییرات پیش از ارسال به `main` ایجاد گردید.
+
+### ۲. ساخت صفحه اصلی در شاخه‌ی جداگانه
+
+در شاخه‌ی `feature/homepage`:
+- چیدمان اصلی شامل باکس تصویر و باکس معرفی در کنار هم پیاده‌سازی شد.
+- از Flexbox برای چیدمان واکنش‌گرا استفاده شد.
+- رنگ و فونت برای باکس‌ها تعیین شد.
+
+### ۳. ایجاد بخش پورتفولیو در شاخه‌ی مجزا
+
+در شاخه‌ی `feature/portfolio`:
+- کتابخانه `react-masonry-css` نصب و پیاده‌سازی شد.
+- تصاویر در قالب یک گرید نامنظم چیده شدند.
+
+### ۴. افزودن انیمیشن‌ها در شاخه‌ی مجزا
+
+در شاخه‌ی `feature/animation`:
+- کتابخانه `react-intersection-observer` نصب شد.
+- برای همه‌ی باکس‌ها، متن‌ درباره‌ی من، و تصاویر پورتفولیو افکت fade-in از پایین اضافه شد.
+- انیمیشن‌ها فقط یک بار و هنگام ورود به محدوده‌ی دید کاربر اجرا می‌شوند.
+- تأخیر جزئی برای تصاویر گالری تنظیم شد تا ظاهر شدن آن‌ها پلکانی باشد.
+
+### ۵. مدیریت شاخه‌ها و ادغام
+
+هر قابلیت در یک شاخه‌ی جداگانه توسعه داده شد و
+پس از اتمام، ابتدا با شاخه‌ی `dev` مرج شد. بعد از اطمینان از کارکرد صحیح در `dev`، یک Pull Request از `dev` به `main` ایجاد و پس از تأیید، مرج نهایی انجام شد.
+
+### ۶. حل تعارضات
+
+در حین ادغام شاخه‌های `feature/animation` و `feature/portfolio` با شاخه‌ی `dev`، به علت توسعه‌ی همزمان این دو شاخه از روی یک استیت اولیه مشترک، چهار فایل به conflict خوردند که داخل خود گیت‌هاب این کانفلیکت‌ها بررسی و رفع شد و مرج انجام شد.
+
+### ۷. محافظت از شاخه‌ی main
+
+در تنظیمات GitHub:
+- شاخه‌ی `main` به عنوان Protected Branch تنظیم شد.
+- شرط الزام Pull Request برای ادغام هر تغییری فعال گردید.
+- اعمال محدودیت برای ارسال مستقیم (بدون PR) اعمال شد.
+
+### ۸. استقرار خودکار با GitHub Actions
+
+برای استقرار خودکار workflow زیر ایجاد شد:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm run build
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+      - uses: actions/deploy-pages@v4
+```
+
+## سوالات تئوری
+
+### ۱. پوشه‌ی .git چیست؟ چه اطلاعاتی در آن ذخیره می‌شود؟ با چه دستوری ساخته می‌شود؟
+
+پوشه .git اطلاعات مربوط به نسخه‌بندی پروژه، شامل آبجکت‌های کامیت، آبجکت‌های درخت (ساختاربندی پروژه)، آبجکت‌های Blob (محتویات فایل‌ها)، رفرنس‌های شاخه‌ها، تنظیمات پیکربندی، لاگ‌ها، و اطلاعات ایندکس، را ذخیره می‌کند. این پوشه با دستور git init در ریشه‌ی پروژه ساخته می‌شود.
+
+### ۲. منظور از atomic بودن در atomic commit و atomic pull-request چیست؟
+
+Atomic commit کامیتی است که شامل تغییری کامل و غیرقابل تقسیم می‌شود. این کامیت باید پروژه را در حالت functional نگه دارد و نمی‌تواند به قطعات کوچک‌تر معنادار تقسیم شود. Atomic pull-request نیز محموعه‌ای از کامیت‌هاست که به عنوان یک واحد غیرقابل‌ تقسیم بررسی و مرج می‌شود، یعنی یا همه‌ی کامیت‌ها مرج می‌شوند یا هیچ‌کدامشان.
+
+### ۳. تفاوت دستورهای fetch و pull و merge و rebase و cherry-pick را بیان کنید.
+
+| عملکرد | دستور |
+|-----|------|
+فقط تغییرات مخزن remote را دریافت می‌کند و آن‌ها را با مخزن لوکال ادغام نمی‌کند. | fetch |
+تغییرات مخزن remote را دریافت می‌کند و بلافاصله آن‌ها را با مخزن لوکال ادغام می‌کند. | pull |
+تغییرات یک شاخه را بر روی شاخه‌ی دیگر ادغام می‌کند. | merge |
+کامیت‌های یک شاخه را به سر شاخه‌ای دیگر منتقل یا در واقع بازاعمال می‌کند (برای بازنویسی تاریخچه به صورتی تمیز و خطی). | rebase |
+یک کامیت خاص را از یک شاخه به شاخه‌ی دیگر کپی می‌کند. | cherry-pick |
+
+### ۴. تفاوت دستورهای reset و revert و restore و switch و checkout را بیان کنید.
+
+| عملکرد | دستور |
+|-----|------|
+اشاره‌گر شاخه‌ را به یک کامیت خاص می‌برد. این دستور تاریخچه را بازنویسی می‌کند که برای شاخه‌های اشتراکی خطرناک است. | reset |
+یک کامیت جدید ایجاد می‌کند که تغییرات کامیت قبلی را undo می‌کند. این دستور تاریخچه را بازنویسی نمی‌کند و استفاده از آن امن است. | revert |
+فایل‌های تغییریافته (داخل working directory) را از یک کامیت یا از ایندکس بازیابی می‌کند. | restore | 
+شاخه را تغییر می‌دهد. | switch |
+نسخه‌ی قدیمی‌تر switch که علاوه بر تغییر شاخه، فایل‌ها را نیز restore می‌کند. | checkout |
+
+### ۵. منظور از stage یا همان index چیست؟ دستور stash چه کاری را انجام می‌دهد؟
+
+استیج یا ایندکس فضایی بین working directory و مخزن گیت است که یک snapshot از تغییراتی که در کامیت بعد می‌آیند نگهداری می‌کند. با دستور git add فایل‌ها را به استیج اضافه‌ می‌کنیم. دستور stash موقتا فایل‌های تغییریافته‌ی استیج‌شده و نشده را خیره می‌کند و working directory را خالی می‌کند تا امکان عوض کردن برنچ و عملیات‌ دیگر بدون نیاز به کامیت کردن تغییرات ایجاد شود. این تغییرات را می‌توان با دستورات git stash pop یا git stash apply بازگرداند.
