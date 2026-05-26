@@ -13,6 +13,7 @@ const breakpointColumns = {
 function App() {
   const [bioRef, bioInView] = useInView({ triggerOnce: true, threshold: 0.2 })
   const [aboutRef, aboutInView] = useInView({ triggerOnce: true, threshold: 0.2 })
+  const [portfolioRef, portfolioInView] = useInView({ triggerOnce: true, threshold: 0.1})
 
   return (
     <div className="container">
@@ -58,11 +59,11 @@ function App() {
       </div>
 
 
-      <div className="portfolio-box">
+      <div className={`portfolio-box ${portfolioInView ? 'slide-in' : ''}`} ref={portfolioRef}>
         <h2>Portfolio</h2>
         <Masonry
           breakpointCols={breakpointColumns}
-          className="masonry-grid"
+          className={`masonry-grid ${portfolioInView ? 'fade-in' : ''}`}
           columnClassName="masonry-column"
         >
           <div className="portfolio-item">
