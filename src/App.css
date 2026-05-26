@@ -35,7 +35,7 @@ body {
 }
 
 .image-box img {
-  height: 280px;
+  height: 300px;
   width: 100%;
   max-width: 250px;
   border-radius: 20px;
@@ -45,7 +45,7 @@ body {
 }
 
 .bio-box {
-  height: 280px;
+  height: 300px;
   flex: 2;
   min-width: 250px;
   background-color: #e8e0d5;
@@ -64,14 +64,13 @@ body {
 }
 
 .bio-box h3 {
-  margin: 0 0 25px 0;
+  margin: 5px 0 25px 0;
   color: #6b6258;
   font-weight: 500;
   font-size: 1.1rem;
 }
 
 .channels p {
-  margin: 12px 0;
   font-size: 1rem;
   color: #3a3733;
   font-weight: 400;
@@ -102,4 +101,51 @@ body {
 
 .about-box p:last-child {
   margin-bottom: 0;
+}
+
+.masonry-grid {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+.masonry-column {
+  background-clip: padding-box;
+}
+
+.portfolio-item {
+  margin-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.portfolio-item img {
+  width: 100%;
+  display: block;
+  height: auto;
+}
+
+/* Different aspect ratios for variety */
+.portfolio-item.tall img {
+  aspect-ratio: 3/4;
+}
+
+.portfolio-item.wide img {
+  aspect-ratio: 4/3;
+}
+
+.portfolio-box {
+  background-color: #e8e0d5;
+  padding: 35px;
+  border-radius: 20px;
+  margin-top: 40px;
+}
+
+.portfolio-box h2 {
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-weight: 600;
+  color: #2c2b28;
+  font-size: 1.5rem;
 }
